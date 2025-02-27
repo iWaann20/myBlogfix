@@ -1,0 +1,10 @@
+requirement:
+1. laragon v6.0 -> database:mySQL, webserver:nginx
+2. tableplus for database access
+3. autoprefixer v10.4.20
+4. flowbite v3.1.2
+5. postcss v8.5.3
+6. tailwindcss v3.4.17
+7. flowbite-typography v1.0.5
+8. php v8.4.4
+9. nodejs v22

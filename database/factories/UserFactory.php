@@ -29,6 +29,11 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'profile_picture' => $this->faker->randomElement([
+                'https://source.unsplash.com/200x200/?face',
+                'https://randomuser.me/api/portraits/men/' . rand(1, 99) . '.jpg',
+                'https://randomuser.me/api/portraits/women/' . rand(1, 99) . '.jpg'
+            ]),
             'remember_token' => Str::random(10),
         ];
     }
