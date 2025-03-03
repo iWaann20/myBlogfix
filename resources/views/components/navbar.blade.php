@@ -8,9 +8,9 @@
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
               <a href="/" class="{{ request()->is('/') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</a>
-              <a href="/posts" class="{{ request()->is('posts') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Blog</a>
+              <a href="/posts" class="{{ request()->is('posts*') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Blog</a>
         @auth
-              <a href="/mypost" class="{{ request()->is('mypost') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">My Post</a>
+              <a href="/mypost" class="{{ request()->is('mypost*') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">My Post</a>
               <a href="/about" class="{{ request()->is('about') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">About</a>
               <a href="/contact" class="{{ request()->is('contact') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Contact</a>
             </div>
@@ -23,7 +23,9 @@
                 <button type="button" @click="isOpen = !isOpen" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                   <span class="absolute -inset-1.5"></span>
                   <span class="sr-only">Open user menu</span>
-                  <img class="size-8 rounded-full" src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) . '?' . time() : 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png' }}" 
+                  <img class="size-8 rounded-full" src="{{ filter_var(auth()->user()->profile_picture, FILTER_VALIDATE_URL) 
+                    ? auth()->user()->profile_picture 
+                    : asset('storage/' . auth()->user()->profile_picture) }}" 
                   alt="Profile Picture">
 
                 </button>
@@ -93,7 +95,9 @@
         <div class="border-t border-gray-700 pt-4 pb-3">
           <div class="flex items-center px-5">
             <div class="shrink-0">
-              <img class="size-10 rounded-full"  src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) . '?' . time() : 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png' }}" 
+              <img class="size-10 rounded-full"  src="{{ filter_var(auth()->user()->profile_picture, FILTER_VALIDATE_URL) 
+                ? auth()->user()->profile_picture 
+                : asset('storage/' . auth()->user()->profile_picture) }}" 
               alt="Profile Picture">
             </div>
             <div class="ml-3">

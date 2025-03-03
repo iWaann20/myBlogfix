@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Support\Arr;
 use App\Http\Middleware\EnsureLogin;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
@@ -49,6 +50,7 @@ Route::post('/signup', [RegisterController::class, 'DataRegister']);
 Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
 Route::patch('/profile', [ProfileController::class, 'update']);
 
-Route::get('/mypost', function () {
-    return view('mypost', ['title'=>'My Post']);
-});
+Route::get('/mypost/checkSlug', [PostController::class, 'checkSlug']);
+Route::resource('/mypost', PostController::class)->parameters([
+    'mypost' => 'post:slug'
+]);

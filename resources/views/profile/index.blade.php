@@ -29,11 +29,15 @@
         });
     </script>
       
-    @if(session('success'))
-    <div class="p-3 mb-4 text-green-700 bg-green-100 border border-green-400 rounded-lg">
-        {{ session('success') }}
-    </div>
-    @endif
+      @if (session()->has('success'))
+      <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative w-full max-w-md" role="alert">
+          <strong class="font-bold">Success!</strong>
+          <span class="block sm:inline">{{ session('success') }}</span>
+          <button type="button" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-green-500 hover:text-green-700" onclick="this.parentElement.remove();">
+              &times;
+          </button>
+      </div>
+          @endif
     <div class="font-std mb-10 w-full rounded-2xl bg-white p-10 font-normal leading-relaxed text-gray-900 shadow-xl">
         <div class="flex flex-col">
             
@@ -46,9 +50,11 @@
                         <div class="text-center">
                             <div>
                                 <img id="profile_preview"
-                                src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png' }}"
+                                src="{{ filter_var(auth()->user()->profile_picture, FILTER_VALIDATE_URL) 
+                                ? auth()->user()->profile_picture 
+                                : asset('storage/' . auth()->user()->profile_picture) }}" 
                                 alt="Profile Picture"
-                                     class="rounded-full w-32 h-32 mx-auto border-4 border-indigo-800 mb-4 ring ring-gray-300">
+                                class="rounded-full w-32 h-32 mx-auto border-4 border-indigo-800 mb-4 ring ring-gray-300">
                     
                                 <input type="file" name="profile_picture" id="upload_profile" hidden>
                             </div>

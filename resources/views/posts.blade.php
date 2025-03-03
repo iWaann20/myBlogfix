@@ -41,8 +41,12 @@
                     <p class="mb-5 font-light text-gray-500 dark:text-gray-400">{{ Str::limit($post['body']), 150}}</p>
                     <div class="flex justify-between items-center">
                         <div class="flex items-center space-x-4">
-                            <img class="w-7 h-7 rounded-full" src="{{ $post->author->profile_picture ?? 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png' }}" 
-                            alt="{{ $post->author->profile_picture }} avatar"/>
+                            <img class="w-7 h-7 rounded-full"  src="{{ $post->author->profile_picture 
+                                ? (filter_var($post->author->profile_picture, FILTER_VALIDATE_URL) 
+                                   ? $post->author->profile_picture 
+                                   : asset('storage/' . $post->author->profile_picture)) 
+                                : asset('default-profile.png') }}" 
+                         alt="{{ $post->author->name }}"/>
                             <span class="font-medium dark:text-white">
                                 <a href="/posts?author={{ $post->author->username }}" class = "hover:underline">{{ $post->author->name }}</a>
                             </span>

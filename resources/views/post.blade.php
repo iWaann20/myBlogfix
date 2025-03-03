@@ -7,8 +7,10 @@
                     <a href="/posts" class="font-medium text-sm text-blue-500 hover:underline">&laquo; Back to posts</a>
                     <address class="flex items-center my-6 not-italic">
                         <div class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                            <img class="mr-4 w-16 h-16 rounded-full" src="{{ $post->author->profile_picture ?? 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png' }}" 
-                            alt="{{ $post->author->profile_picture }} avatar">
+                            <img class="mr-4 w-16 h-16 rounded-full" src="{{ filter_var(auth()->user()->profile_picture, FILTER_VALIDATE_URL) 
+                            ? auth()->user()->profile_picture 
+                            : asset('storage/' . auth()->user()->profile_picture) }}" 
+                            alt="Profile Picture">
                             <div>
                                 <a href="/posts?author={{ $post->author->username }}" rel="author" class="text-xl font-bold text-gray-900 dark:text-white hover:underline">{{ $post->author->name }}</a>
                                 <p class="text-base text-gray-500 dark:text-gray-400">{{ $post->created_at->format('d F Y')}}</p>
