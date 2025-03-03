@@ -37,15 +37,11 @@
                                     <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                 </svg>
                                 </a>
-                                <form action="/mypost" method="post">
-                                    @method('update')
-                                    @csrf
-                                <button type="submit" class="w-4 mr-2 transform hover:text-yellow-500 hover:scale-110">
+                                <a href="/mypost/{{ $post['slug'] }}/edit" class="w-4 mr-2 transform hover:text-yellow-500 hover:scale-110">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                     </svg>
-                                </button>
-                                </form>
+                                </a>
                                 <form action="/mypost/{{ $post['slug'] }}" method="post">
                                 @method('delete')
                                 @csrf

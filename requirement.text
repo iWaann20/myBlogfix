@@ -8,3 +8,4 @@ requirement:
 7. flowbite-typography v1.0.5
 8. php v8.4.4
 9. nodejs v22
+10. google recaptcha v2

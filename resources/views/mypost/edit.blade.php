@@ -5,40 +5,43 @@
             <div class="max-w-lg mx-auto"> 
               <div class="flex items-center space-x-3">
                 <div class="block font-semibold text-lg text-gray-700">
-                  <h2 class="leading-snug">New Post</h2>
-                  <p class="text-sm text-gray-500 font-normal leading-snug">Create a new post then press the create button</p>
+                  <h2 class="leading-snug">Edit Post</h2>
+                  <p class="text-sm text-gray-500 font-normal leading-snug">Edit a post then press the Update button</p>
                 </div>
               </div>
-              <form action="/mypost" method="POST">
+              <form action="/mypost/{{ $post['slug'] }}" method="POST">
+                @method('put')
                 @csrf
               <div class="divide-y divide-gray-200">
                 <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                   <div class="flex flex-col">
                     <label for="title" class="leading-loose">Post Title</label>
-                    <input type="text" name="title" id="title" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm placeholder-gray-400 border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Title" required autofocus>
+                    <input type="text" name="title" id="title" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm placeholder-gray-400 border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Title" required autofocus value="{{ old('title', $post->title) }}">
                   </div>
                   <div class="flex flex-col">
                     <label for="slug" class="leading-loose">Slug</label>
-                    <input type="text" name="slug" id="slug" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm placeholder-gray-400 border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Slug" required>
+                    <input type="text" name="slug" id="slug" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm placeholder-gray-400 border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Slug" required value="{{ old('slug', $post->slug) }}">
                   </div>
                   <div class="flex flex-col">
                     <label for="category" class="leading-loose">Category</label>
                     <select name="category_id" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600">
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <option value="{{ $category->id }}" {{ old('category_id', $post->category_id) == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
                         @endforeach
                     </select>
-                  </div>
+                  </div>                
                   <div class="flex flex-col">
                     <label for="body" class="leading-loose">Post Content</label>
-                    <textarea name="body" id="body" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm placeholder-gray-400 border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Content" rows="20" required></textarea>
+                    <textarea name="body" id="body" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm placeholder-gray-400 border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Content" rows="20" required>{{ old('body', $post->body) }}</textarea>
                   </div>
                 </div>
                 <div class="pt-4 flex items-center space-x-4">
                     <a href="/mypost" class="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none hover:bg-gray-100 transition duration-300">
                     <span data-feather="x" class="w-6 h-6 mr-3"></span> Cancel
                     </a>
-                    <button type="submit" class="bg-blue-500 flex justify-center items-center w-full text-white px-4 py-3 rounded-md hover:bg-blue-700 focus:outline-none">Create Post</button>
+                    <button type="submit" class="bg-blue-500 flex justify-center items-center w-full text-white px-4 py-3 rounded-md hover:bg-blue-700 focus:outline-none">Update Post</button>
                     </form>
                 </div>
               </div>

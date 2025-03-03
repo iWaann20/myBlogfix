@@ -19,7 +19,6 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
 
-        // dd($request->all());
         $request->validate([
             'name' => 'required|max:255',
             'username' => ['required', 'min:3', 'max:255', 'unique:users,username,' . Auth::id()],

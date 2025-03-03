@@ -49,14 +49,33 @@ class PostController extends Controller
         ]);   
     }
 
-    public function edit()
+    public function edit(Post $post)
     {
-        
+        $categories = Category::all();
+        return view('mypost.edit', compact('categories'), [
+            'title' => 'Edit Post',
+            'post' => $post,
+        ]);
     }
 
-    public function update()
+    public function update(Request $request, Post $post)
     {
-        
+        $rules = [
+            'title' => 'required|max:255',
+            'category_id' => 'required',
+            'body' => 'required' 
+        ];
+
+        if ($request->slug != $post->slug){
+            $rules['slug'] = 'required|unique:posts'; 
+        }
+
+        $validatedData = $request->validate($rules);
+
+        $validatedData['author_id'] = auth()->user()->id;
+
+        Post::where('id', $post->id)->update($validatedData);
+        return redirect('/mypost')->with('success', 'Post updated successfully');
     }
 
     public function destroy(Post $post)
