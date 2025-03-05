@@ -22,7 +22,6 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'username' => ['required', 'min:3', 'max:255', 'unique:users,username,' . Auth::id()],
-            'email' => 'required|email:dns|unique:users,email,' . Auth::id(),
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
@@ -44,7 +43,6 @@ class ProfileController extends Controller
         $user->update([
             'name' => $request->name,
             'username' => $request->username,
-            'email' => $request->email,
             'profile_picture' => $user->profile_picture
         ]);
 

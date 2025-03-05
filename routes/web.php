@@ -4,9 +4,12 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Arr;
+use Mews\Captcha\Facades\Captcha;
 use App\Http\Middleware\EnsureLogin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
@@ -42,6 +45,7 @@ Route::get('/contact', function () {
 
 Route::get('/signin', [LoginController::class, 'LoginForm'])->name('signin')->middleware(EnsureLogin::class);
 Route::post('/signin', [LoginController::class, 'auth']);
+Route::get('/refresh-captcha', [LoginController::class, 'reloadCaptcha']);
 Route::post('/signout', [LoginController::class, 'logout']);
 
 Route::get('/signup', [RegisterController::class, 'RegisterForm']);
@@ -54,3 +58,8 @@ Route::get('/mypost/checkSlug', [PostController::class, 'checkSlug']);
 Route::resource('/mypost', PostController::class)->parameters([
     'mypost' => 'post:slug'
 ]);
+
+Route::middleware([AdminMiddleware::class])->group(function () {
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::post('/admin/{user}', [AdminController::class, 'verify']);
+});

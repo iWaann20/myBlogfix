@@ -25,7 +25,7 @@ class PostFactory extends Factory
         return [
             'title' => $faker->sentence(),
             'author_id' => User::factory(),
-            'category_id' => Category::factory(),
+            'category_id' => Category::inRandomOrder()->first()->id,
             'slug' => Str::slug(fake()->sentence()),
             'body' =>  $faker->paragraphs(3,true)
         ];
