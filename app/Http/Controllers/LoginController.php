@@ -20,7 +20,7 @@ class LoginController extends Controller
 
     public function reloadCaptcha()
     {
-        return response()->json(['captcha' => captcha_src()]);
+        return response()->json(['captcha' => captcha_src('mini')]);
     }    
     
     public function auth(Request $request)
@@ -43,15 +43,18 @@ class LoginController extends Controller
         if (!$user->is_verified) {
             return back()->withErrors(['login' => 'Your account has not been verified by the admin.'])->withInput();
         }
-        
 
-        if (Auth::attempt([$fieldType => $credentials['login'], 'password' => $credentials['password']])) {
-            return redirect()->intended('/');
+        if (!\Hash::check($credentials['password'], $user->password)) {
+            return back()->withErrors(['login' => 'Username or Telegram Username and Password are wrong'])->withInput();
         }
-    
-        return back()->withErrors([
-            'login' => 'Username or Telegram username and password is wrong.',
-        ])->withInput();
+
+        session(['pending_user_id' => $user->id]);
+            
+        $otpController = new TelegramOTPController();
+        $otpController->sendOtp($request);
+
+            
+        return redirect('/otp');
     }
 
     public function logout(Request $request)

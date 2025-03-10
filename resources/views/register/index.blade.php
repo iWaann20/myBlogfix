@@ -55,8 +55,16 @@
                         @enderror
                     </div>
                     <div>
+                        <label for="telegram_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telegram ID</label>
+                        <input type="text" name="telegram_id" id="telegram_id" class="bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 @error('telegram_id')
+                        is-invalid @enderror" placeholder="Telegram Username" required="" autocomplete="off" value="{{ old('telegram_username') }}">
+                        @error('telegram_username')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
                         <label for="telegram_username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telegram Username</label>
-                        <input type="text" name="telegram_username" id="telegram_username" class="bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 @error('username')
+                        <input type="text" name="telegram_username" id="telegram_username" class="bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 @error('telegram_username')
                         is-invalid @enderror" placeholder="Telegram Username" required="" autocomplete="off" value="{{ old('telegram_username') }}">
                         @error('telegram_username')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

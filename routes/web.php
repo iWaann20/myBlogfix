@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Mews\Captcha\Facades\Captcha;
 use App\Http\Middleware\EnsureLogin;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TelegramOTPController;
 use App\Http\Controllers\PostController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\AdminController;
@@ -63,3 +64,8 @@ Route::middleware([AdminMiddleware::class])->group(function () {
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::post('/admin/{user}', [AdminController::class, 'verify']);
 });
+
+
+Route::get('/otp', [TelegramOTPController::class, 'index'])->name('verifyotp');
+Route::post('/otp/send', [TelegramOTPController::class, 'sendOtp'])->name('otp.send');
+Route::post('/otp/verify', [TelegramOTPController::class, 'verifyOtp'])->name('otp.verify');

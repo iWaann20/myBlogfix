@@ -70,7 +70,7 @@
                     <div>
                         <label for="captcha" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Captcha</label>
                         <div class="flex items-center space-x-2">
-                            <img id="captcha-img" src="{{ captcha_src() }}?t={{ time() }}" alt="captcha">
+                            <img id="captcha-img" src="{{ captcha_src('mini') }}?t={{ time() }}" alt="captcha">
                             <button type="button" id="refresh-captcha" class="text-blue-600">🔄</button>
                         </div>
                         <input type="text" name="captcha" id="captcha" 
@@ -88,7 +88,7 @@
                             .then(data => {
                                 let captchaImg = document.getElementById('captcha-img');
                                 captchaImg.src = data.captcha + '?t=' + new Date().getTime(); 
-                            })
+                            }) 
                             .catch(error => console.error('Error refreshing captcha:', error));
                     });
                     </script>                                                  
