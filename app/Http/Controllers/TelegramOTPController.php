@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
 class TelegramOTPController extends Controller {
@@ -31,6 +32,15 @@ class TelegramOTPController extends Controller {
             return back()->withErrors(['otp' => 'Please connect your telegram first!']);
         }
 
+        $cacheKey = "otp_cooldown_{$user->id}";
+  
+        if (Cache::has($cacheKey)) {
+            return response()->json([
+                'message' => 'Tunggu 5 menit sebelum mengirim ulang OTP.',
+                'remaining' => Cache::get($cacheKey) - now()->timestamp
+            ], 429);
+        }
+
         Otp::where('user_id', $user->id)->delete();
 
         $otpCode = rand(100000, 999999);
@@ -39,6 +49,9 @@ class TelegramOTPController extends Controller {
             'otp_code' => $otpCode,
             'expires_at' => now()->addMinutes(5)
         ]);
+
+        $cooldownTime = now()->addMinutes(5)->timestamp;
+        Cache::put($cacheKey, $cooldownTime, 300);
 
         $botToken = config('services.telegram.bot_token');
         $message = "Kode OTP Anda: *$otpCode*\nBerlaku selama 5 menit.";
