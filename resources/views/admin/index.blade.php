@@ -1,39 +1,80 @@
 <x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
-    <div class="container mx-auto p-6">
-        <h2 class="text-2xl font-bold mb-4">User Verification</h2>
-        @if (session()->has('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative w-full max-w-md" role="alert">
-            <span class="block sm:inline">{{ session('success') }}</span>
-            <button type="button" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-green-500 hover:text-green-700" onclick="this.parentElement.remove();">
-                &times;
-            </button>
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">      
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                <h4 class="mb-sm-0 font-size-18">User Verification</h4>
+                        <form action="/admin" method="get" class="d-flex">
+                            @if (request('user'))
+                            <input type="hidden" name="username" value="{{ request('username') }}">
+                            <input type="hidden" name="telegram_username" value="{{ request('telegram_username') }}">
+                            <input type="hidden" name="name" value="{{ request('name') }}">
+                            @endif
+                            <div class="input-group">
+                                <input type="search" class="form-control" id="search" name="search" placeholder="Search User" autocomplete="off">
+                                <button class="btn btn-primary" type="submit" style="background-color: #023669 !important; border-color: #023669 !important;">Search</button>
+                            </div>
+                        </form>       
+                    </div>         
+                    @if (session()->has('success'))
+                    <div class="alert alert-success alert-dismissible fade show max-w-md" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Username</th>
+                                    <th class="text-center">Telegram Username</th>
+                                    <th class="text-center">Role</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($users as $user)
+                                <tr>
+                                    <td class="text-center">{{ $user->name }}</td>
+                                    <td class="text-center">{{ $user->username }}</td>
+                                    <td class="text-center">{{ $user->telegram_username }}</td>
+                                    <td class="text-center">{{ $user->role->name }}</td>
+                                    <td class="text-center">
+                                        <form action="/admin/{{ $user['id'] }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary  waves-effect waves-light" style="background-color: #023669 !important; border-color: #023669 !important;">Verify</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @empty
+                                <div class="text-center">
+                                    <p class="text-xl fw-bold mt-3">User not found.</p>
+                                </div>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-2 px-5">
+                    <div>
+                        <p class="mb-0">Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} results</p>
+                    </div>
+                    <div>
+                        {{ $users->links('pagination::bootstrap-4') }}
+                    </div>
+                    <style>
+                        .pagination .active .page-link {
+                            background-color: #023669 !important;
+                            border-color: #023669 !important;
+                        }
+                    </style>                    
+                </div>
+            </div>
         </div>
-        @endif
-        <table class="w-full border-collapse border border-gray-300">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border border-gray-300 p-2">Name</th>
-                    <th class="border border-gray-300 p-2">Username</th>
-                    <th class="border border-gray-300 p-2">Telegram Username</th>
-                    <th class="border border-gray-300 p-2">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($users as $user)
-                <tr>
-                    <td class="border border-gray-300 p-2">{{ $user->name }}</td>
-                    <td class="border border-gray-300 p-2">{{ $user->username }}</td>
-                    <td class="border border-gray-300 p-2">{{ $user->telegram_username }}</td>
-                    <td class="border border-gray-300 p-2 text-center">
-                        <form action="/admin/{{ $user['id'] }}" method="POST">
-                            @csrf
-                            <button type="submit" class="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded">Verify</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+    </div>   
+
 </x-layout>

@@ -1,102 +1,107 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-gray-100">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite(['resources/css/app.css','resources/js/app.js'])
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <title>{{ $title }}</title>
+    @include('layouts.head')
+    @include('layouts.head-style') 
+
 </head>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById('togglePassword').addEventListener('click', function () {
-            let passwordInput = document.getElementById('password');
-            let eyeIcon = document.getElementById('eyeIcon');
-            
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                eyeIcon.classList.remove("fa-eye");
-                eyeIcon.classList.add("fa-eye-slash");
-            } else {
-                passwordInput.type = "password";
-                eyeIcon.classList.remove("fa-eye-slash");
-                eyeIcon.classList.add("fa-eye");
-            }
-        });
-    });
-</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <body class="h-full">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         @if (session()->has('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative w-full max-w-md" role="alert">
-        <strong class="font-bold">Success!</strong>
-        <span class="block sm:inline">{{ session('success') }}</span>
-        <button type="button" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-green-500 hover:text-green-700" onclick="this.parentElement.remove();">
-            &times;
-        </button>
-    </div>
+        <div class="alert alert-success alert-dismissible fade show max-w-md" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         @endif
-        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    Sign in to your account
-                </h1>
-                <form class="space-y-4 md:space-y-6" action="/signin" method="post">
-                    @csrf
-                    <div>
-                        <label for="login" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username or Telegram Username</label>
-                        <input type="text" name="login" id="login" class="bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 @error('login')
-                        is-invalid @enderror" placeholder="Username or Telegram Username" required="" autofocus value="{{ old('login') }}">
-                        @error('login')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="relative">
-                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                        <div class="relative">
-                            <input type="password" name="password" id="password" placeholder="Password" 
-                                class="bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 pr-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 @error('password') is-invalid @enderror" required>
-                            <span id="togglePassword" class="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500 dark:text-gray-300">
-                                <i id="eyeIcon" class="fas fa-eye"></i>
-                            </span>
+       <div class="auth-page">
+        <div class="container-fluid p-0">
+            <div class="row g-0 vh-100 align-items-center justify-content-center">
+                <div class="col-xxl-3 col-lg-4 col-md-5">
+                    <div class="auth-full-page-content d-flex align-items-center justify-content-center min-vh-100 p-sm-5 p-4">
+                        <div class="w-100">
+                            <div class="d-flex flex-column h-100">
+                                <div class="mb-3 text-center">
+                                    <a href="/" class="d-block auth-logo">
+                                        <img src="{{ asset('assets/images/logo-sm.svg') }}" alt="" height="28">
+                                        <span class="logo-txt">Minia</span>
+                                    </a>
+                                </div>
+                                <div class="auth-content my-auto">
+                                    <div class="text-center">
+                                        <h5 class="mb-0">Welcome Back!</h5>
+                                        <p class="text-muted mt-2">Sign in to your account</p>
+                                    </div>
+                                    <form class="custom-form pt-2" action="/signin" method="post">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label class="form-label" for="login">Username or Telegram Username</label>
+                                            <input type="text" name="login" id="login" class="form-control @error('login') is-invalid @enderror" placeholder="Enter username or Telegram" value="{{ old('login') }}" required autofocus>
+                                            @error('login')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="password">Password</label>
+                                            <div class="input-group auth-pass-inputgroup">
+                                                <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter password" required>
+                                                <button class="btn btn-light ms-0" type="button" id="togglePassword"><i class="mdi mdi-eye-outline"></i></button>
+                                            </div>
+                                            @error('password')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="captcha">Captcha</label>
+                                            <div class="d-flex align-items-center">
+                                                <img id="captcha-img" src="{{ captcha_src('mini') }}" alt="captcha">
+                                                <button type="button" id="refresh-captcha" class="btn btn-link p-0 ms-2">🔄</button>
+                                            </div>
+                                            <input type="text" name="captcha" id="captcha" class="form-control mt-2 @error('captcha') is-invalid @enderror" placeholder="Enter Captcha" required>
+                                            @error('captcha')
+                                                <span class="text-danger">Invalid Captcha</span>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <button class="btn btn-primary w-100 waves-effect waves-light" type="submit" style="background-color: #023669 !important; border-color: #023669 !important;">Sign In</button>
+                                        </div>
+                                    </form>
+                                    <div class=" text-center">
+                                        <p class="text-muted mb-0">Don't have an account? <a href="/signup" class="text-primary fw-semibold" style="color: #023669 !important;">Sign up now</a></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        @error('password')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div>
-                        <label for="captcha" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Captcha</label>
-                        <div class="flex items-center space-x-2">
-                            <img id="captcha-img" src="{{ captcha_src('mini') }}?t={{ time() }}" alt="captcha">
-                            <button type="button" id="refresh-captcha" class="text-blue-600">🔄</button>
-                        </div>
-                        <input type="text" name="captcha" id="captcha" 
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
-                                   block w-full p-2.5 mt-2 dark:bg-gray-700 dark:border-gray-600 placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                            placeholder="Enter Captcha" required>
-                        @error('captcha')
-                            <p class="text-red-500 text-sm mt-1">Invalid Captcha</p>
-                        @enderror
-                    </div>
-                    <script>
-                        document.getElementById('refresh-captcha').addEventListener('click', function () {
-                        fetch('/refresh-captcha')
-                            .then(response => response.json())
-                            .then(data => {
-                                let captchaImg = document.getElementById('captcha-img');
-                                captchaImg.src = data.captcha + '?t=' + new Date().getTime(); 
-                            }) 
-                            .catch(error => console.error('Error refreshing captcha:', error));
-                    });
-                    </script>                                                  
-                    <button type="submit" class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
-                    <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                        Don’t have an account yet? <a href="/signup" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
-                    </p>
-                </form>
+                    </div> 
+                </div>
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            let passwordInput = document.getElementById('password');
+            let eyeIcon = document.getElementById('togglePassword').querySelector('i');
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.classList.remove("mdi-eye-outline");
+                eyeIcon.classList.add("mdi-eye-off-outline");
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.classList.remove("mdi-eye-off-outline");
+                eyeIcon.classList.add("mdi-eye-outline");
+            }
+        });
+
+        document.getElementById('refresh-captcha').addEventListener('click', function () {
+            fetch('/refresh-captcha')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('captcha-img').src = data.captcha + '?t=' + new Date().getTime();
+                })
+                .catch(error => console.error('Error refreshing captcha:', error));
+        });
+    </script>
+</body>
+</html>    

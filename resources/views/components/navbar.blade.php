@@ -1,139 +1,325 @@
-<nav class="bg-gray-800" x-data="{ isOpen: false }">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex h-16 items-center justify-between">
-        <div class="flex items-center">
-          <div class="shrink-0">
-            <img class="size-8" src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
-          </div>
-          <div class="hidden md:block">
-            <div class="ml-10 flex items-baseline space-x-4">
-              <a href="/" class="{{ request()->is('/') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</a>
-              <a href="/posts" class="{{ request()->is('posts*') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Blog</a>
-        @auth
-              <a href="/mypost" class="{{ request()->is('mypost*') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">My Post</a>
-              <a href="/about" class="{{ request()->is('about') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">About</a>
-              <a href="/contact" class="{{ request()->is('contact') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Contact</a>
-              @if(auth()->user()->role_id === 1)
-              <a href="/admin" class="{{ request()->is('admin') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium">
-                  Verify Users
-              </a>
-              @endif
+<header id="page-topbar">
+    <div class="navbar-header">
+        <div class="d-flex">
+            <div class="navbar-brand-box">
+                <a class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="assets/images/logo-sm.svg" alt="" height="24">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="assets/images/logo-sm.svg" alt="" height="24"> <span class="logo-txt">Minia</span>
+                    </span>
+                </a>
+                <a class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="assets/images/logo-sm.svg" alt="" height="24">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="assets/images/logo-sm.svg" alt="" height="24"> <span class="logo-txt">Minia</span>
+                    </span>
+                </a>
             </div>
-          </div>
-        </div>
-        <div class="hidden md:block">
-          <div class="ml-4 flex items-center md:ml-6">    
-            <div class="relative ml-3">
-              <div>
-                <button type="button" @click="isOpen = !isOpen" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                  <span class="absolute -inset-1.5"></span>
-                  <span class="sr-only">Open user menu</span>
-                  <img class="size-8 rounded-full" src="{{ filter_var(auth()->user()->profile_picture, FILTER_VALIDATE_URL) 
-                    ? auth()->user()->profile_picture 
-                    : asset('storage/' . auth()->user()->profile_picture) }}" 
-                  alt="Profile Picture">
 
-                </button>
-              </div>
-              <div  x-show="isOpen"
-              x-transition:enter="transition ease-out duration-100 transform"
-              x-transition:enter-start="opacity-0 scale-95"
-              x-transition:enter-end="opacity-100 scale-100"
-              x-transition:leave="transition ease-in duration-75 transform"
-              x-transition:leave-start="opacity-100 scale-100"
-              x-transition:leave-end="opacity-0 scale-95"
-              class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-              <form action="/profile" method="get">
-              <button type="submit" class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-300" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</button>
-              </form>
-                <form action="/signout" method="post">
-                  @csrf
-                  <button type="submit" class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-300" role="menuitem" tabindex="-1" id="user-menu-item-1">Sign out</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        @else
-              <a href="/about" class="{{ request()->is('about') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">About</a>
-              <a href="/contact" class="{{ request()->is('contact') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Contact</a>
-            </div>
-          </div>
-        </div>
-        <div class="hidden md:block ml-auto">
-          <a href="/signin" class="{{ request()->is('signin') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} flex items-center space-x-2 rounded-md px-3 py-2 text-sm font-medium" aria-current="page">
-            <svg class="w-5 h-5 text-gray-300 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H4m12 0-4 4m4-4-4-4m3-4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2"/>
-            </svg>
-            <span>Sign in</span>
-          </a>
-        </div>
-        @endauth
-
-        <div class="-mr-2 flex md:hidden">
-          <button @click="isOpen = !isOpen"
-          type="button" class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" aria-controls="mobile-menu" aria-expanded="false">
-            <span class="absolute -inset-0.5"></span>
-            <span class="sr-only">Open main menu</span>
-            <svg :class="{'hidden': isOpen, 'block': !isOpen}"
-            class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-            <svg :class="{'block': isOpen, 'hidden': !isOpen}"
-            class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-      @auth
-      <div x-show="isOpen" class="md:hidden" id="mobile-menu">
-        <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-              <a href="/" class="{{ request()->is('/') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</a>
-              <a href="/about" class="{{ request()->is('about') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">About</a>
-              <a href="/posts" class="{{ request()->is('posts') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Blog</a>
-              <a href="/contact" class="{{ request()->is('contact') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Contact</a>
-              <a href="/mypost" class="{{ request()->is('mypost') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">My Post</a>
-        </div>
-        <div class="border-t border-gray-700 pt-4 pb-3">
-          <div class="flex items-center px-5">
-            <div class="shrink-0">
-              <img class="size-10 rounded-full"  src="{{ filter_var(auth()->user()->profile_picture, FILTER_VALIDATE_URL) 
-                ? auth()->user()->profile_picture 
-                : asset('storage/' . auth()->user()->profile_picture) }}" 
-              alt="Profile Picture">
-            </div>
-            <div class="ml-3">
-              <div class="text-base/5 font-medium text-white">{{ auth()->user()->name }}</div>
-              <div class="text-sm font-medium text-gray-400">{{ auth()->user()->email }}</div>
-            </div>
-          </div>
-          <div class="mt-3 space-y-1 px-2">
-          <form action="/profile" method="get">
-            <button type="submit" class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</button>
+            <button type="button" class="btn btn-sm px-3 font-size-16 header-item" id="vertical-menu-btn">
+                <i class="fa fa-fw fa-bars"></i>
+            </button>
+            <div class="search-container">
+            <form class="app-search d-none d-lg-block">
+                <div class="position-relative">
+                    <input type="text" class="form-control" placeholder="Search">
+                    <button class="btn btn-primary" type="button" style="background-color: #023669 !important; border-color: #023669 !important;"><i class="bx bx-search-alt align-middle"></i></button>
+                </div>
             </form>
-          <form action="/signout" method="post">
-          @csrf
-          <button type="submit" class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Sign out</button>
-          </form>
+            </div>
         </div>
-      </div>
-      @else
-      <div x-show="isOpen" class="md:hidden" id="mobile-menu">
-        <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-              <a href="/" class="{{ request()->is('/') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</a>
-              <a href="/about" class="{{ request()->is('about') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">About</a>
-              <a href="/posts" class="{{ request()->is('posts') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Blog</a>
-              <a href="/contact" class="{{ request()->is('contact') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Contact</a>
-              <a href="/signin" class="{{ request()->is('signin') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} flex items-center space-x-2 rounded-md px-3 py-2 text-sm font-medium" aria-current="page">
-                <svg class="w-5 h-5 text-gray-300 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H4m12 0-4 4m4-4-4-4m3-4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2"/>
-                </svg>
-                <span>Sign in</span>
-              </a>
+
+        <div class="d-flex">
+            <div class="dropdown d-inline-block d-lg-none ms-2">
+                <button type="button" class="btn header-item" id="page-header-search-dropdown"
+                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i data-feather="search" class="icon-lg"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                    aria-labelledby="page-header-search-dropdown">
+        
+                    <form class="p-3">
+                        <div class="form-group m-0">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search" aria-label="Search Result">
+
+                                <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="dropdown d-none d-sm-inline-block">
+                <button type="button" class="btn header-item" id="mode-setting-btn">
+                    <i data-feather="moon" class="icon-lg layout-mode-dark"></i>
+                    <i data-feather="sun" class="icon-lg layout-mode-light"></i>
+                </button>
+            </div>
+            <div class="dropdown d-none d-lg-inline-block ms-1">
+                <button type="button" class="btn header-item"
+                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i data-feather="grid" class="icon-lg"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                    <div class="p-2">
+                        <div class="row g-0">
+                            <div class="col">
+                                <a class="dropdown-icon-item" href="#">
+                                    <img src="assets/images/brands/github.png" alt="Github">
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a class="dropdown-icon-item" href="#">
+                                    <img src="assets/images/brands/bitbucket.png" alt="bitbucket">
+                                    <span>Bitbucket</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a class="dropdown-icon-item" href="#">
+                                    <img src="assets/images/brands/dribbble.png" alt="dribbble">
+                                    <span>Dribbble</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="row g-0">
+                            <div class="col">
+                                <a class="dropdown-icon-item" href="#">
+                                    <img src="assets/images/brands/dropbox.png" alt="dropbox">
+                                    <span>Dropbox</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a class="dropdown-icon-item" href="#">
+                                    <img src="assets/images/brands/mail_chimp.png" alt="mail_chimp">
+                                    <span>Mail Chimp</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a class="dropdown-icon-item" href="#">
+                                    <img src="assets/images/brands/slack.png" alt="slack">
+                                    <span>Slack</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn header-item noti-icon position-relative" id="page-header-notifications-dropdown"
+                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i data-feather="bell" class="icon-lg"></i>
+                    <span class="badge bg-danger rounded-pill">5</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                    aria-labelledby="page-header-notifications-dropdown">
+                    <div class="p-3">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="m-0"> Notifications </h6>
+                            </div>
+                            <div class="col-auto">
+                                <a href="#!" class="small text-reset text-decoration-underline"> Unread (3)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-simplebar style="max-height: 230px;">
+                        <a href="#!" class="text-reset notification-item">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 me-3">
+                                    <img src="assets/images/users/avatar-3.jpg" class="rounded-circle avatar-sm" alt="user-pic">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">James_Lemire</h6>
+                                    <div class="font-size-13 text-muted">
+                                        <p class="mb-1">It_will_seem_like_simplified_English.</p>
+                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>1_hours_ago</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#!" class="text-reset notification-item">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 avatar-sm me-3">
+                                    <span class="avatar-title bg-primary rounded-circle font-size-16">
+                                        <i class="bx bx-cart"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">Your_order_is_placed</h6>
+                                    <div class="font-size-13 text-muted">
+                                        <p class="mb-1">If_several_languages_coalesce_the_grammar</p>
+                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>3_min_ago</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#!" class="text-reset notification-item">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 avatar-sm me-3">
+                                    <span class="avatar-title bg-success rounded-circle font-size-16">
+                                        <i class="bx bx-badge-check"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">Your_item_is_shipped</h6>
+                                    <div class="font-size-13 text-muted">
+                                        <p class="mb-1">If_several_languages_coalesce_the_grammar</p>
+                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>3_min_ago</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="#!" class="text-reset notification-item">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 me-3">
+                                    <img src="assets/images/users/avatar-6.jpg" class="rounded-circle avatar-sm" alt="user-pic">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">Salena_Layfield</h6>
+                                    <div class="font-size-13 text-muted">
+                                        <p class="mb-1">As_a_skeptical_Cambridge_friend_of_mine_occidental.</p>
+                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>1_hours_ago</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="p-2 border-top d-grid">
+                        <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
+                            <i class="mdi mdi-arrow-right-circle me-1"></i> <span>View_More</span> 
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn header-item right-bar-toggle me-2">
+                    <i data-feather="settings" class="icon-lg"></i>
+                </button>
+            </div>
+            <div class="dropdown d-inline-block">
+            <button type="button" class="btn header-item bg-soft-light border-start border-end" id="page-header-user-dropdown"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            
+            @if(auth()->user()->profile_picture)
+                <img class="rounded-circle header-profile-user" 
+                    src="{{ filter_var(auth()->user()->profile_picture, FILTER_VALIDATE_URL) 
+                        ? auth()->user()->profile_picture 
+                        : asset('storage/' . auth()->user()->profile_picture) }}" 
+                    alt="Profile Picture">
+            @else
+                <span class="rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white" 
+                    style="width: 40px; height: 40px;">
+                    <i data-feather="user"></i>
+                </span>
+            @endif
+                <span class="d-none d-xl-inline-block ms-1 fw-medium">{{ auth()->user()->username }}</span>
+                <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+            </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item" href="/profile"><i class="mdi mdi-face-profile font-size-16 align-middle me-1"></i> Profile</a>
+                    <a class="dropdown-item" href="auth-lock-screen.php"><i class="mdi mdi-lock font-size-16 align-middle me-1"></i> Lock_screen </a>
+                    <div class="dropdown-divider"></div>
+                    <form action="/signout" method="post">
+                        @csrf
+                        <button class="dropdown-item" type="submit"><i class="mdi mdi-logout font-size-16 align-middle me-1"></i>Sign out</button>
+                    </form>
+                </div>
+            </div>
         </div>
-      @endauth
+    </div>   
+</header>
+<div class="vertical-menu">
+    <div data-simplebar class="h-100">
+        <div id="sidebar-menu">
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title" data-key="t-menu">Menu</li>
+
+                <li>
+                    <a href="/">
+                        <i data-feather="home"></i>
+                        <span data-key="t-dashboard">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="grid"></i>
+                        <span data-key="t-apps">Apps</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="/calendar">
+                                <span data-key="t-calendar">Calendar</span>
+                            </a>
+                        </li>
+        
+                        <li>
+                            <a href="/chat">
+                                <span data-key="t-chat">Chat</span>
+                            </a>
+                        </li>
+        
+                        <li>
+                            <a href="#" class="has-arrow">
+                                <span data-key="t-email">Email</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="/inbox-mail" data-key="t-inbox">Inbox</a></li>
+                                <li><a href="/read-email" data-key="t-read-email">Read_Email</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow">
+                                <span data-key="t-invoices">Invoices</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="/invoices-list" data-key="t-invoice-list">Invoice_List</a></li>
+                                <li><a href="/invoices-detail" data-key="t-invoice-detail">Invoice_Detail</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow">
+                                <span data-key="t-contacts">Contacts</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="apps-contacts-grid.php" data-key="t-user-grid">User_Grid</a></li>
+                                <li><a href="apps-contacts-list.php" data-key="t-user-list">User_List</a></li>
+                                <li><a href="apps-contacts-profile.php" data-key="t-profile">Profile</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                @auth
+                @if(auth()->user()->role_id === 1)
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="users"></i>
+                        <span data-key="t-authentication">Authentication</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="/admin" data-key="t-admin">Verify Users</a></li>
+                        <li><a href="/login" data-key="t-login">Login</a></li>
+                        <li><a href="pages-register.php" data-key="t-register">Register</a></li>
+                        <li><a href="pages-recoverpw.php" data-key="t-recover-password">Recover_Password</a></li>
+                        <li><a href="auth-lock-screen.php" data-key="t-lock-screen">Lock_Screen</a></li>
+                        <li><a href="auth-confirm-mail.php" data-key="t-confirm-mail">Confirm_Mail</a></li>
+                        <li><a href="auth-email-verification.php" data-key="t-email-verification">Email_Verification</a></li>
+                        <li><a href="auth-two-step-verification.php" data-key="t-two-step-verification">Two_Step_Verification</a></li>
+                    </ul>
+                </li>
+                @endif
+                @endauth
+            </ul>
+        </div>
     </div>
-  </nav>
+</div>

@@ -23,6 +23,7 @@ return new class extends Migration
             );
             $table->string('profile_picture')->nullable();
             $table->boolean('is_verified')->default(false);
+            $table->json('theme_preferences')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -55,6 +56,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('is_verified');
             $table->dropColumn('role');
+            $table->dropColumn('theme_preferences');
         });
     }
 };

@@ -31,6 +31,10 @@ class User extends Authenticatable
         'is_verified',
     ];
 
+    protected $casts = [
+        'theme_preferences' => 'array',
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *

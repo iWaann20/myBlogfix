@@ -50,6 +50,8 @@ class LoginController extends Controller
 
         session(['pending_user_id' => $user->id]);
             
+        session(['theme_preferences' => $user->theme_preferences]);
+
         $otpController = new TelegramOTPController();
         $otpController->sendOtp($request);
 

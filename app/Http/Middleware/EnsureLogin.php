@@ -10,7 +10,7 @@ class EnsureLogin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check()) {
+        if (auth()->check() && in_array($request->route()->getName(), ['signin', 'signup', 'verifyotp'])) {
             return redirect('/');
         }
 
