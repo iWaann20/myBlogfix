@@ -7,6 +7,10 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Database\Seeders\MenuSeeder;
+use Database\Seeders\RoleSeeder;
+use Database\Seeders\SubMenuSeeder;
+use Database\Seeders\CategorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,6 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,     
             CategorySeeder::class, 
+            MenuSeeder::class,
+            SubMenuSeeder::class
         ]);
 
         $users = User::factory(20)->create();

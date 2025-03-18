@@ -11,7 +11,7 @@ class Menu extends Model
 {
     /** @use HasFactory<\Database\Factories\MenuFactory> */
     use HasFactory;
-
+    protected $guarded = ['id'];
     public function sub_menus(): HasMany
     {
         return $this->hasMany(SubMenu::class, 'menu_id');

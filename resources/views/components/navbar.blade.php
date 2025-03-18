@@ -244,6 +244,16 @@
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title" data-key="t-menu">Menu</li>
 
+                <?php
+                $menus = /DB::table('menus')->get();
+                ?>
+
+                @foreach ($menus as $menu)
+                    <?php
+                    $submenus = /DB::table('sub_menus')->where('menu_id', $menu->id)->get();
+                    $countsubmenus = count($submenus);
+                    ?>
+                @endforeach
                 <li>
                     <a href="/">
                         <i data-feather="home"></i>

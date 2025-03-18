@@ -10,7 +10,7 @@ class SubMenu extends Model
 {
     /** @use HasFactory<\Database\Factories\SubMenuFactory> */
     use HasFactory;
-
+    protected $guarded = ['id'];
     public function menu(): BelongsTo
     {
         return $this->belongsTo(Menu::class);
