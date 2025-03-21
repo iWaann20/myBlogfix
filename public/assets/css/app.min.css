@@ -16,3 +16,19 @@
     background-color: #023669; 
     border: 2px solid #023669;
 }
+
+#add-menu-button {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: visibility 0.3s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+    width: 200px; 
+    height: 40px;
+}
+
+body[data-sidebar-size="lg"] #add-menu-button {
+    opacity: 1;
+    visibility: visible;
+}

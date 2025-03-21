@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Mews\Captcha\Facades\Captcha;
 use App\Http\Middleware\EnsureLogin;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PostController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\AdminController;
@@ -85,6 +86,10 @@ Route::middleware([EnsureAuthenticated::class])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
     Route::post('/admin/{user}', [AdminController::class, 'verify']);
     });
+
+    Route::post('/menus/store', [MenuController::class, 'store'])->name('menus.store');
+    Route::put('/menus/update', [MenuController::class, 'update'])->name('menus.update');
+    Route::delete('/menus/delete', [MenuController::class, 'destroy'])->name('menus.destroy');
     
 });
 

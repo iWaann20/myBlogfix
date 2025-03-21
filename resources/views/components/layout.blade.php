@@ -4,7 +4,6 @@
     <title>{{ $title }}</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
     <meta content="Themesbrand" name="author"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="assets/images/favicon.ico">
@@ -14,6 +13,7 @@
     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body data-layout-mode="{{ Auth::user()->theme_preferences['layout-mode'] ?? 'light' }}"
     data-layout-width="{{ Auth::user()->theme_preferences['layout-width'] ?? 'fluid' }}"
@@ -23,7 +23,30 @@
     data-sidebar="{{ Auth::user()->theme_preferences['sidebar-color'] ?? 'light' }}">
     <div id="layout-wrapper">
         <x-navbar />
-            {{ $slot }}
+        <x-sidebar />
+        @if (session()->has('success'))
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: "{{ session('success') }}",
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </script>
+        @endif
+        @if (session()->has('error'))
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: "{{ session('error') }}",
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </script>
+        @endif
+        {{ $slot }}
     </div>
     <x-right-sidebar />
     @php

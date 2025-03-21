@@ -18,13 +18,7 @@
                                 <button class="btn btn-primary" type="submit" style="background-color: #023669 !important; border-color: #023669 !important;">Search</button>
                             </div>
                         </form>       
-                    </div>         
-                    @if (session()->has('success'))
-                    <div class="alert alert-success alert-dismissible fade show max-w-md" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                    @endif
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped">
                             <thead class="table-light">

@@ -10,9 +10,9 @@ class AdminController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('search'); // Ambil query pencarian
+        $search = $request->input('search'); 
 
-        $users = User::where('is_verified', false) // Filter user yang belum diverifikasi
+        $users = User::where('is_verified', false) 
             ->when($search, function ($query, $search) {
                 return $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")

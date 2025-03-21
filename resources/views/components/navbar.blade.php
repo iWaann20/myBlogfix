@@ -46,7 +46,6 @@
                         <div class="form-group m-0">
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Search" aria-label="Search Result">
-
                                 <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
                             </div>
                         </div>
@@ -211,7 +210,8 @@
             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             
             @if(auth()->user()->profile_picture)
-                <img class="rounded-circle header-profile-user" 
+                <img class="rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white" 
+                style="width: 40px; height: 40px;" 
                     src="{{ filter_var(auth()->user()->profile_picture, FILTER_VALIDATE_URL) 
                         ? auth()->user()->profile_picture 
                         : asset('storage/' . auth()->user()->profile_picture) }}" 
@@ -238,98 +238,3 @@
         </div>
     </div>   
 </header>
-<div class="vertical-menu">
-    <div data-simplebar class="h-100">
-        <div id="sidebar-menu">
-            <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title" data-key="t-menu">Menu</li>
-
-                <?php
-                $menus = /DB::table('menus')->get();
-                ?>
-
-                @foreach ($menus as $menu)
-                    <?php
-                    $submenus = /DB::table('sub_menus')->where('menu_id', $menu->id)->get();
-                    $countsubmenus = count($submenus);
-                    ?>
-                @endforeach
-                <li>
-                    <a href="/">
-                        <i data-feather="home"></i>
-                        <span data-key="t-dashboard">Dashboard</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i data-feather="grid"></i>
-                        <span data-key="t-apps">Apps</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li>
-                            <a href="/calendar">
-                                <span data-key="t-calendar">Calendar</span>
-                            </a>
-                        </li>
-        
-                        <li>
-                            <a href="/chat">
-                                <span data-key="t-chat">Chat</span>
-                            </a>
-                        </li>
-        
-                        <li>
-                            <a href="#" class="has-arrow">
-                                <span data-key="t-email">Email</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="/inbox-mail" data-key="t-inbox">Inbox</a></li>
-                                <li><a href="/read-email" data-key="t-read-email">Read_Email</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow">
-                                <span data-key="t-invoices">Invoices</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="/invoices-list" data-key="t-invoice-list">Invoice_List</a></li>
-                                <li><a href="/invoices-detail" data-key="t-invoice-detail">Invoice_Detail</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow">
-                                <span data-key="t-contacts">Contacts</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="apps-contacts-grid.php" data-key="t-user-grid">User_Grid</a></li>
-                                <li><a href="apps-contacts-list.php" data-key="t-user-list">User_List</a></li>
-                                <li><a href="apps-contacts-profile.php" data-key="t-profile">Profile</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                @auth
-                @if(auth()->user()->role_id === 1)
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i data-feather="users"></i>
-                        <span data-key="t-authentication">Authentication</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="/admin" data-key="t-admin">Verify Users</a></li>
-                        <li><a href="/login" data-key="t-login">Login</a></li>
-                        <li><a href="pages-register.php" data-key="t-register">Register</a></li>
-                        <li><a href="pages-recoverpw.php" data-key="t-recover-password">Recover_Password</a></li>
-                        <li><a href="auth-lock-screen.php" data-key="t-lock-screen">Lock_Screen</a></li>
-                        <li><a href="auth-confirm-mail.php" data-key="t-confirm-mail">Confirm_Mail</a></li>
-                        <li><a href="auth-email-verification.php" data-key="t-email-verification">Email_Verification</a></li>
-                        <li><a href="auth-two-step-verification.php" data-key="t-two-step-verification">Two_Step_Verification</a></li>
-                    </ul>
-                </li>
-                @endif
-                @endauth
-            </ul>
-        </div>
-    </div>
-</div>

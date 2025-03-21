@@ -17,7 +17,7 @@
 <body>
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         @if (session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show max-w-md" role="alert">
+        <div class="alert alert-success alert-dismissible show max-w-md" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>

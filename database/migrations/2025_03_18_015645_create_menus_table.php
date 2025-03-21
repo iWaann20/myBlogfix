@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('route')->nullable();
-            $table->string('icon');
+            $table->string('name')->unique();
+            $table->string('route');
+            $table->string('icon')->nullable();
+            $table->integer('list')->nullable();
+            $table->foreignId('menu_id')->nullable()->constrained('menus')->onDelete('cascade'); 
+            $table->foreignId('parent_id')->nullable()->constrained('menus')->onDelete('cascade'); 
             $table->timestamps();
         });
     }
